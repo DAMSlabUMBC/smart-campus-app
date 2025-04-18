@@ -62,7 +62,7 @@ const news = () => {
       <View style={{ gap: 8 }}>
         {cards.map((card, index) => (
           <ThemedCard
-            key={index}
+            key={index + 1}
             isNews={true}
             title={card.title}
             date={card.date}
