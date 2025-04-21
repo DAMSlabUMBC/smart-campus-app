@@ -8,7 +8,9 @@ export default function CameraLayout() {
         headerShown: false,
         contentStyle: styles.content,
       }}
-    />
+    >
+      <Stack.Screen name="index" />
+    </Stack>
   );
 }
 

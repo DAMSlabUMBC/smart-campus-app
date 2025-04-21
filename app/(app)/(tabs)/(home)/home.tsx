@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { router, Redirect } from "expo-router";
 import { View, ScrollView } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { Image } from "expo-image";
 import { useAssets } from "expo-asset";
 import { scale, ScaledSheet } from "react-native-size-matters";
 
@@ -14,11 +13,10 @@ import { ExternalLink } from "@/components/ExternalLink";
 import ThemedCard from "@/components/ThemedCard";
 import ThemedLocationCard from "@/components/ThemedLocationCard";
 import ThemedCameraButton from "@/components/ThemedCameraButton";
-import camera from "./camera";
 
 const home = () => {
   const [assets, error] = useAssets([
-    require("../../../../assets/images/starbucks_logo.webp"),
+    require("../../../../assets/images/retrievers_logo.png"),
   ]);
 
   const map = useRef<MapView>(null);
@@ -32,14 +30,31 @@ const home = () => {
 
   const cards = [
     {
+      coordinate: {
+        latitude: 39.254278471070016,
+        longitude: -76.71323412142037,
+      },
       title: "Starbuck's",
-      date: "January 21, 2025",
-      data: "Food",
+      type: "Dining",
+      description: "Food",
     },
     {
+      coordinate: {
+        latitude: 39.25354000895919,
+        longitude: -76.70982040763015,
+      },
       title: "Commons Garage",
-      date: "January 17, 2025",
-      data: "Parking",
+      type: "Parking",
+      description: "Parking",
+    },
+    {
+      coordinate: {
+        latitude: 39.256359590373265,
+        longitude: -76.71156045469975,
+      },
+      title: "Einstein Bros Bagels",
+      type: "Dining",
+      description: "Food",
     },
   ];
 
@@ -48,7 +63,7 @@ const home = () => {
   const test = false;
 
   if (test) {
-    return <Redirect href="/locations/0" />;
+    return <Redirect href="/camera" />;
   }
 
   return (
@@ -74,36 +89,19 @@ const home = () => {
               // console.log("Region changed:", region);
             }}
           >
-            {/* Starbucks  */}
-            <Marker
-              coordinate={{
-                latitude: 39.254278471070016,
-                longitude: -76.71323412142037,
-              }}
-              onPress={() => {
-                router.push("/details/0");
-              }}
-            />
-            {/* Einstein Bagels  */}
-            <Marker
-              coordinate={{
-                latitude: 39.25354000895919,
-                longitude: -76.70982040763015,
-              }}
-              onPress={() => {
-                router.push("/details/1");
-              }}
-            />
-            {/* Commons Garage  */}
-            <Marker
-              coordinate={{
-                latitude: 39.256359590373265,
-                longitude: -76.71156045469975,
-              }}
-              onPress={() => {
-                router.push("/details/2");
-              }}
-            />
+            {cards.map((card, index) => {
+              return (
+                <Marker
+                  key={index}
+                  coordinate={card.coordinate}
+                  title={card.title}
+                  description={card.description}
+                  onPress={() => {
+                    router.push(`/sensors/${index}`);
+                  }}
+                />
+              );
+            })}
           </MapView>
         </View>
       </View>
@@ -116,22 +114,17 @@ const home = () => {
           </ThemedPressable>
         </View>
         <View style={styles.cardContainer}>
-          {cards.slice(0, 2).map((card, index) => (
-            <ThemedLocationCard
-              key={index + 1}
-              image={assets ? assets[0] : undefined}
-              title={card.title}
-              date={card.date}
-              href={`/locations/${index}`}
-            />
-          ))}
-          {/* View All Button */}
-          {/* <ThemedPressable
-            style={{ width: "40%", padding: 4 }}
-            onPress={() => router.push("/news/all")}
-          >
-            <ThemedText type="internalLink">View All</ThemedText>
-          </ThemedPressable> */}
+          {cards.map((card, index) => {
+            return (
+              <ThemedLocationCard
+                key={index + 1}
+                image={assets ? assets[0] : undefined}
+                title={card.title}
+                type={card.type}
+                href={`/locations/${index}`}
+              />
+            );
+          })}
         </View>
       </View>
       <View style={styles.sectionContainer}>

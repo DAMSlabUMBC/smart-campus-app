@@ -3,6 +3,8 @@ import { View } from "react-native";
 import { Link, router } from "expo-router";
 import { verticalScale, ScaledSheet } from "react-native-size-matters";
 
+import Feather from "@expo/vector-icons/Feather";
+
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedPressable } from "@/components/ThemedPressable";
@@ -75,7 +77,12 @@ export default function ThemedCard({
               {summary}
             </ThemedText>
           </View>
-          <ThemedText type="cardLink">Click for more details</ThemedText>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <ThemedText type="cardLink" style={{ color: detailColor }}>
+              Click for more details
+            </ThemedText>
+            <Feather name="chevron-right" size={16} color={detailColor} />
+          </View>
         </View>
       </ThemedPressable>
     );

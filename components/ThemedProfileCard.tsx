@@ -13,6 +13,7 @@ interface ProfileCardProps {
   darkColor?: string;
   text: string;
   icon: React.ReactElement;
+  onPress?: () => void | undefined;
 }
 
 const ThemedProfileCard = ({
@@ -20,6 +21,7 @@ const ThemedProfileCard = ({
   darkColor,
   text,
   icon,
+  onPress,
 }: ProfileCardProps) => {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
@@ -42,6 +44,7 @@ const ThemedProfileCard = ({
         { borderColor: borderColor, backgroundColor: backgroundColor },
         styles.cardContainer,
       ]}
+      onPress={() => onPress && onPress()}
     >
       <View style={styles.iconTextContainer}>
         {icon}

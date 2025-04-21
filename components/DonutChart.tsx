@@ -26,7 +26,6 @@ const DonutChart = ({
     { light: lightColor, dark: darkColor },
     "innerCircle"
   );
-  const dataColor = useThemeColor({}, "borderColor");
 
   return (
     <PieChart

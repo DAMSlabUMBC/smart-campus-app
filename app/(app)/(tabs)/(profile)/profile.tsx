@@ -10,6 +10,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedProfileCard from "@/components/ThemedProfileCard";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { router } from "expo-router";
 
 interface ProfileProps {
   lightColor?: string;
@@ -51,22 +52,27 @@ const profile = ({ lightColor, darkColor }: ProfileProps) => {
         <ThemedProfileCard
           text="Notifications"
           icon={<Feather name="bell" size={size} color={profileIconColor} />}
+          onPress={() => router.push("/workInProgress")}
         />
         <ThemedProfileCard
           text="Privacy Policy"
           icon={<Feather name="shield" size={size} color={profileIconColor} />}
+          onPress={() => router.push("/workInProgress")}
         />
         <ThemedProfileCard
           text="Support"
           icon={<Feather name="info" size={size} color={profileIconColor} />}
+          onPress={() => router.push("/workInProgress")}
         />
         <ThemedProfileCard
           text="About Developers"
           icon={<Feather name="user" size={size} color={profileIconColor} />}
+          onPress={() => router.push("/workInProgress")}
         />
         <ThemedProfileCard
           text="Log out"
           icon={<Feather name="log-out" size={size} color={profileIconColor} />}
+          onPress={() => router.push("/workInProgress")}
         />
       </View>
     </View>

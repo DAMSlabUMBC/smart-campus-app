@@ -83,7 +83,8 @@ const camera = () => {
                 await Linking.openURL(data).catch((err) =>
                   console.error("An error occurred", err)
                 );
-              }, 500);
+                qrLock.current = false; // Unlock the QR code scanner after the scan
+              }, 500); // Restart the camera after a short delay
             }
           }}
         >
@@ -104,13 +105,13 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginVertical: "40@s",
-    marginHorizontal: "12@s",
+    marginBottom: "64@s",
     backgroundColor: "transparent",
     paddingBottom: "40@vs",
   },
   cameraContainer: {
     flex: 1,
+    justifyContent: "flex-start",
   },
   content: {
     flex: 1,
@@ -128,8 +129,6 @@ const styles = ScaledSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     paddingBottom: "32@s",
-    borderRadius: "16@s",
-    overflow: "hidden",
   },
   scanButtonContainer: {
     justifyContent: "center",

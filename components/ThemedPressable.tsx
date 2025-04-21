@@ -46,7 +46,7 @@ export function ThemedPressable({
 const styles = ScaledSheet.create({
   default: {
     alignItems: "center",
-    borderRadius: 7.5,
+    borderRadius: "7.5@ms",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",

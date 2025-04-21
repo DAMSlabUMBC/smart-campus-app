@@ -9,7 +9,7 @@ export default function DetailsLayout() {
         contentStyle: styles.content,
       }}
     >
-      <Stack.Screen name="[id]" />
+      <Stack.Screen name="[id]" options={{ headerTitle: "Sensors" }} />
     </Stack>
   );
 }

@@ -95,7 +95,7 @@ export default {
         origin: false,
       },
       eas: {
-        projectId: process.env.EAS_PROJECT_ID ?? "",
+        projectId: "5c94dfe6-851c-40d7-812b-664ee2dcb4c3",
       },
     },
     updates: {

@@ -13,10 +13,11 @@ export interface chartData {
 export interface chartDataList {
   items: Array<{
     title: string;
+    type: string;
     date: string;
+    time: Date;
     data: {
       queue: pieDataItem[];
-      waitTime: number;
       busyness: number;
     };
   }>;

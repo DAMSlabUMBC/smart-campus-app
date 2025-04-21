@@ -112,11 +112,11 @@ const styles = ScaledSheet.create({
     pointerEvents: "none",
   },
   locationTitle: {
-    fontSize: "32@s",
+    fontSize: "28@s",
     fontFamily: "Poppins-SemiBoldItalic",
   },
   locationSubtitle: {
-    fontSize: "19@s",
+    fontSize: "18@s",
     fontFamily: "Poppins-SemiBold",
   },
   locationSubtitle2: {
@@ -146,8 +146,6 @@ const styles = ScaledSheet.create({
   cardLink: {
     fontSize: "12@s",
     fontFamily: "Poppins-Medium",
-    textDecorationLine: "underline",
-    // textAlign: "center",
   },
   newsTitle: {
     fontSize: "28@s",

@@ -43,7 +43,12 @@ export default function ThemedCameraButton({
         style,
       ]}
     >
-      <Feather name="camera" size={32} color="#687076" />
+      <Feather
+        name="camera"
+        size={32}
+        color="#687076"
+        style={{ borderRadius: "100%" }}
+      />
     </ThemedPressable>
   );
 }
@@ -53,7 +58,8 @@ const styles = ScaledSheet.create({
     padding: "8@ms",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "100%",
+    borderRadius: "100@ms",
     borderWidth: "1@s",
+    overflow: "hidden",
   },
 });

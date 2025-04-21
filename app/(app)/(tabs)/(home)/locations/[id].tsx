@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { View, ScrollView } from "react-native";
 import DonutChart from "@/components/DonutChart";
 import CustomLineChart from "@/components/CustomLineChart";
-import { ScaledSheet, verticalScale, scale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 import { chartDataList } from "@/constants/DataTypes";
 
 import { ThemedText } from "@/components/ThemedText";
@@ -16,10 +16,6 @@ interface LocationsProps {
 }
 
 const locations = ({ lightColor, darkColor }: LocationsProps) => {
-  const detailColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "detailText"
-  );
   const paragraphColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "paragraphText"
@@ -30,18 +26,24 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
   );
 
   const { id } = useLocalSearchParams();
-  const newsId = Array.isArray(id) ? parseInt(id[0]) : parseInt(id); // Parse the locations ID from the URL parameter
+  const locationId = Array.isArray(id) ? parseInt(id[0]) : parseInt(id); // Parse the locations ID from the URL parameter
 
+  // Dining variables
   const maxLength = 30; // Maximum length of the queue
   const estimateWait = 1; // Wait time per person in minutes
 
-  const queue = Math.floor(Math.random() * 51); // Generate a random number between 0 and 50
+  const queue = Math.floor(Math.random() * 31); // Generate a random number between 0 and 30
   const waitTime = Math.ceil(queue * estimateWait); // Calculate wait time based on queue amount (5 minutes per person)
-  const busyness = Math.ceil((queue / maxLength) * 10); // Calculate busyness level from 1-10 based on queue amount
+  const queuebusyness = Math.ceil((queue / maxLength) * 10); // Calculate queuebusyness level from 1-10 based on queue amount
 
-  const flag = true;
+  // Parking variables
+  const freeParkingSpaces = 50; // Maximum number of parking spaces
+  const takenParkingSpaces = Math.floor(Math.random() * 51); // Maximum number of free parking spaces
+  const parkingbusyness = Math.ceil(
+    (takenParkingSpaces / freeParkingSpaces) * 10
+  ); // Calculate busyness level from 1-10 based on queue amount
 
-  const generateQueueData = (queue: number) => [
+  const generateDiningQueueData = (queue: number) => [
     {
       value: queue,
       color:
@@ -68,24 +70,78 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
     },
   ];
 
+  const generateParkingQueueData = (queue: number) => [
+    {
+      value: queue,
+      color:
+        queue <= freeParkingSpaces / 4
+          ? "#a3ff00" // Green
+          : queue <= freeParkingSpaces / 2
+            ? "#fff400" // Yellow
+            : queue <= (3 * freeParkingSpaces) / 4
+              ? "#ffa700" // Orange
+              : "#ff0000", // Red
+      gradientCenterColor:
+        queue <= freeParkingSpaces / 4
+          ? "#a3ff00" // Green
+          : queue <= freeParkingSpaces / 2
+            ? "#fff400" // Yellow
+            : queue <= (3 * freeParkingSpaces) / 4
+              ? "#ffa700" // Orange
+              : "#ff0000", // Red,
+    },
+    {
+      value: freeParkingSpaces - queue,
+      color: backgroundDataColor,
+      gradientCenterColor: backgroundDataColor,
+    },
+  ];
+
   const cards: chartDataList = {
     items: [
       {
         title: "Starbuck's",
-        date: "January 21, 2025",
+        type: "dining",
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        time: new Date(Date.now() - 5 * 60 * 1000),
         data: {
-          queue: generateQueueData(queue),
-          waitTime,
-          busyness,
+          queue: generateDiningQueueData(queue),
+          busyness: queuebusyness,
+        },
+      },
+      {
+        title: "Eistein Bros Bagels",
+        type: "dining",
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        time: new Date(Date.now() - 7 * 60 * 1000),
+        data: {
+          queue: generateDiningQueueData(queue),
+          busyness: queuebusyness,
         },
       },
       {
         title: "Commons Garage",
-        date: "January 17, 2025",
+        type: "parking",
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        time: new Date(Date.now() - 5 * 60 * 1000),
         data: {
-          queue: generateQueueData(queue),
-          waitTime,
-          busyness,
+          queue: generateParkingQueueData(takenParkingSpaces),
+          busyness: parkingbusyness,
         },
       },
     ],
@@ -96,31 +152,58 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <View style={{ gap: 4 }}>
+      <View>
         <ThemedText type="locationTitle">
-          {cards.items[newsId]?.title}
+          {cards.items[locationId]?.title}
         </ThemedText>
-        <ThemedText type="locationDate" style={{ color: detailColor }}>
-          Updated {cards.items[newsId]?.date}
+        <ThemedText type="locationDate" style={{ color: paragraphColor }}>
+          {cards.items[locationId]?.date}{" "}
         </ThemedText>
       </View>
-      <View style={styles.textSpacing}>
-        <ThemedText type="locationSubtitle2">Live Queue</ThemedText>
-        <Divider />
-        <ThemedText type="locationText" style={{ color: paragraphColor }}>
-          <View style={styles.donutChartContainer}>
-            <DonutChart id={newsId} queueLength={queue} pieDataItem={cards} />
+      {cards.items[locationId]?.type === "dining" ? (
+        <View style={styles.textSpacing}>
+          <ThemedText type="locationSubtitle2">Live Queue</ThemedText>
+          <Divider />
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.donutChartContainer}>
+              <DonutChart
+                id={locationId}
+                queueLength={
+                  cards.items[locationId]?.type === "dining"
+                    ? queue
+                    : takenParkingSpaces
+                }
+                pieDataItem={cards}
+              />
+            </View>
+            <ThemedText type="locationDate" style={{ color: paragraphColor }}>
+              Updated{" "}
+              {new Date().getMinutes() -
+                cards.items[locationId]?.time.getMinutes() !==
+              0
+                ? `${
+                    new Date().getMinutes() -
+                    cards.items[locationId]?.time.getMinutes()
+                  } minutes ago`
+                : "now"}{" "}
+            </ThemedText>
           </View>
-        </ThemedText>
-      </View>
+        </View>
+      ) : null}
       <View style={styles.textSpacing}>
-        <ThemedText type="locationSubtitle2">Wait Time</ThemedText>
+        <ThemedText type="locationSubtitle2">
+          {cards.items[locationId]?.type === "dining"
+            ? "Wait Time"
+            : "Available Parking"}
+        </ThemedText>
         <Divider />
         <ThemedText
           type="locationText"
           style={[{ color: paragraphColor }, styles.waitTimeText]}
         >
-          {Math.floor(waitTime / 60)}h {waitTime % 60}m
+          {cards.items[locationId]?.type === "dining"
+            ? `${Math.floor(waitTime / 60)}h ${waitTime % 60}m`
+            : `${freeParkingSpaces - takenParkingSpaces} spaces`}
         </ThemedText>
       </View>
       <View style={styles.textSpacing}>
@@ -128,9 +211,17 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
         <Divider />
         <View style={styles.lineChartContainer}>
           <CustomLineChart
-            numDataPoints={12}
-            queueLength={queue}
-            maxLength={maxLength}
+            numDataPoints={24}
+            queueLength={
+              cards.items[locationId]?.type === "dining"
+                ? queue
+                : takenParkingSpaces
+            }
+            maxLength={
+              cards.items[locationId]?.type === "dining"
+                ? maxLength
+                : freeParkingSpaces
+            }
           />
         </View>
       </View>
@@ -150,16 +241,14 @@ const styles = ScaledSheet.create({
     height: "160@vs",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#282828",
     borderRadius: "10@ms",
   },
   lineChartContainer: {
     width: "100%",
     marginVertical: "12@vs",
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "#282828",
+    justifyContent: "flex-start",
     borderRadius: "10@ms",
+    overflow: "visible",
   },
   lineChartLabelText: {},
   waitTimeText: {
