@@ -48,6 +48,7 @@ export default function TabLayout({
       <Tabs.Screen
         name="(home)"
         options={{
+          href: "/home",
           title: "Home",
           tabBarIcon: ({ color }) => (
             <Feather name="home" size={24} color={color} />

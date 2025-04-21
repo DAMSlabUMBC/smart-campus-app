@@ -6,6 +6,7 @@ import { Image } from "expo-image";
 import { useAssets } from "expo-asset";
 
 import { ThemedText } from "@/components/ThemedText";
+import { ThemedPressable } from "@/components/ThemedPressable";
 
 const index = () => {
   const [assets, error] = useAssets([
@@ -19,47 +20,47 @@ const index = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          width: "100%",
-          alignSelf: "flex-start",
-        }}
-      >
-        <ThemedText type="title">
-          Welcome {"\n"}
-          <ThemedText
-            type="title"
-            style={[styles.subtitleSizing, { color: "#FFC20E" }]}
-          >
-            Retriever
-          </ThemedText>
-        </ThemedText>
-      </View>
-      <View style={styles.contentContainer}>
-        <Image
-          source={assets ? assets[0] : undefined}
-          contentFit="contain"
-          style={styles.imageContainer}
-        />
-        <View>
-          <ThemedText
-            type="subtitle"
-            style={{ color: "#FFC20E", textAlign: "center" }}
-          >
-            Smart Campus
-          </ThemedText>
-          <ThemedText style={[styles.text, { paddingHorizontal: scale(20) }]}>
-            Here to provide better services to our fellow retrievers
+    <Link href="/concern">
+      <View style={styles.container}>
+        <View
+          style={{
+            width: "100%",
+            alignSelf: "flex-start",
+          }}
+        >
+          <ThemedText type="title">
+            Welcome {"\n"}
+            <ThemedText
+              type="title"
+              style={[styles.subtitleSizing, { color: "#FFC20E" }]}
+            >
+              Retriever
+            </ThemedText>
           </ThemedText>
         </View>
-      </View>
-      <View>
-        <Link href="/concern">
+        <View style={styles.contentContainer}>
+          <Image
+            source={assets ? assets[0] : undefined}
+            contentFit="contain"
+            style={styles.imageContainer}
+          />
+          <View>
+            <ThemedText
+              type="subtitle"
+              style={{ color: "#FFC20E", textAlign: "center" }}
+            >
+              Smart Campus
+            </ThemedText>
+            <ThemedText style={[styles.text, { paddingHorizontal: scale(20) }]}>
+              Here to provide better services to our fellow retrievers
+            </ThemedText>
+          </View>
+        </View>
+        <View>
           <ThemedText type="link">Tap to Continue</ThemedText>
-        </Link>
+        </View>
       </View>
-    </View>
+    </Link>
   );
 };
 

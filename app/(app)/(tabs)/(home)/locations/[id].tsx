@@ -38,7 +38,9 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
 
   // Parking variables
   const freeParkingSpaces = 50; // Maximum number of parking spaces
-  const takenParkingSpaces = Math.floor(Math.random() * 51); // Maximum number of free parking spaces
+  const takenParkingSpaces = Math.floor(
+    Math.random() * (freeParkingSpaces + 1)
+  ); // Maximum number of free parking spaces
   const parkingbusyness = Math.ceil(
     (takenParkingSpaces / freeParkingSpaces) * 10
   ); // Calculate busyness level from 1-10 based on queue amount
@@ -97,6 +99,10 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
     },
   ];
 
+  const starbuckTime = new Date(Date.now() - 5 * 60 * 1000);
+  const eisteinTime = new Date(Date.now() - 7 * 60 * 1000);
+  const commonsParkingTime = new Date(Date.now() - 5 * 60 * 1000);
+
   const cards: chartDataList = {
     items: [
       {
@@ -108,22 +114,7 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
           month: "long",
           day: "numeric",
         }),
-        time: new Date(Date.now() - 5 * 60 * 1000),
-        data: {
-          queue: generateDiningQueueData(queue),
-          busyness: queuebusyness,
-        },
-      },
-      {
-        title: "Eistein Bros Bagels",
-        type: "dining",
-        date: new Date().toLocaleString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-        time: new Date(Date.now() - 7 * 60 * 1000),
+        time: starbuckTime,
         data: {
           queue: generateDiningQueueData(queue),
           busyness: queuebusyness,
@@ -138,10 +129,25 @@ const locations = ({ lightColor, darkColor }: LocationsProps) => {
           month: "long",
           day: "numeric",
         }),
-        time: new Date(Date.now() - 5 * 60 * 1000),
+        time: commonsParkingTime,
         data: {
           queue: generateParkingQueueData(takenParkingSpaces),
           busyness: parkingbusyness,
+        },
+      },
+      {
+        title: "Eistein Bros Bagels",
+        type: "dining",
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        time: eisteinTime,
+        data: {
+          queue: generateDiningQueueData(queue),
+          busyness: queuebusyness,
         },
       },
     ],

@@ -92,6 +92,7 @@ const CustomLineChart = ({
       width={useWindowDimensions().width - scale(60)} // Dynamically adjust width based on screen size
       hideDataPoints
       spacing={32}
+      maxValue={100}
       scrollToEnd={true}
       showScrollIndicator={true}
       adjustToWidth
