@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { View, ScrollView } from "react-native";
 import { useAssets } from "expo-asset";
 import { Image } from "expo-image";
-import { scale, verticalScale, ScaledSheet } from "react-native-size-matters";
+import { scale, ScaledSheet } from "react-native-size-matters";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 import Feather from "@expo/vector-icons/Feather";

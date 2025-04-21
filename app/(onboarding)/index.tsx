@@ -12,7 +12,7 @@ const index = () => {
     require("../../assets/images/retrievers_logo.png"),
   ]);
 
-  const test = true;
+  const test = false;
 
   if (test) {
     return <Redirect href="/home" />;

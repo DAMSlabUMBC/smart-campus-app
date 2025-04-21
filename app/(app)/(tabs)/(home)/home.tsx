@@ -169,7 +169,7 @@ const home = () => {
                     color: "#FFC20E",
                   }}
                 >
-                  @[email]
+                  @damslabumbc
                 </ThemedText>
               </ThemedText>
             }
